@@ -2,6 +2,7 @@
 #include<stdlib.h>
 #include "binarytree.h"
 #define SUCCESS 1
+#define FAILURE 0
 
 int main(){
 	struct Node *root = malloc(sizeof(struct Node));
@@ -11,7 +12,10 @@ int main(){
 	insertNode(6, &root);
 	insertNode(5, &root);
 	insertNode(10, &root);
-
+	displayTree(&root);
+	printf("before..\n");
+	deleteNode(6, &root);
+	printf("after..\n");
 	displayTree(&root);
 	return SUCCESS;
 }
@@ -22,7 +26,7 @@ void displayTree(struct Node **root){
 		return;
 	}
 	displayTree(&(*root)->left);
-	printf("%d\n", (*root)->data);	
+	printf("%d\n", (*root)->data);
 	displayTree(&(*root)->right);
 }
 
@@ -41,6 +45,22 @@ void traverseAndInsert(struct Node **node, struct Node **root){
 	}else{
 		traverseAndInsert(node, &((*root)->right));
 	}
+}
+void deleteWithChildren(struct Node **nodeToBeDeleted){
+	*nodeToBeDeleted=NULL;	
+}
+
+int deleteNode(int number, struct Node **root){
+	if(number == (*root)->data){
+		deleteWithChildren(root);
+		return SUCCESS;
+	}
+	if(number <= (*root)->data){
+		deleteNode(number, &((*root)->left));
+	}else{
+		deleteNode(number, &((*root)->right));
+	}
+	return FAILURE;
 }
 
 int insertNode(int number, struct Node **root){
