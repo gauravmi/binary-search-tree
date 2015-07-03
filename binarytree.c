@@ -11,11 +11,14 @@ int main(){
 	insertNode(11, &root);
 	insertNode(6, &root);
 	insertNode(5, &root);
-	insertNode(10, &root);
-	displayTree(&root);
-	printf("before..\n");
+	insertNode(10, &root);	
 	deleteNode(6, &root);
-	printf("after..\n");
+	search(8, &root);
+	search(7, &root);
+	search(11, &root);
+	search(6, &root);
+	search(5, &root);
+	search(10, &root);
 	displayTree(&root);
 	return SUCCESS;
 }
@@ -28,6 +31,21 @@ void displayTree(struct Node **root){
 	displayTree(&(*root)->left);
 	printf("%d\n", (*root)->data);
 	displayTree(&(*root)->right);
+}
+
+void search(int number, struct Node **root){
+	if((*root)==NULL){
+		printf("not found : %d\n", number);
+		return;
+	}
+	if(number == (*root)->data){
+		printf("found : %d\n", number);
+		return;
+	}else if(number <= (*root)->data){
+		search(number, &((*root)->left));
+	}else{
+		search(number, &((*root)->right));
+	}	
 }
 
 void traverseAndInsert(struct Node **node, struct Node **root){
@@ -46,6 +64,7 @@ void traverseAndInsert(struct Node **node, struct Node **root){
 		traverseAndInsert(node, &((*root)->right));
 	}
 }
+
 void deleteWithChildren(struct Node **nodeToBeDeleted){	
 	free(*nodeToBeDeleted);
 	*nodeToBeDeleted=NULL;
