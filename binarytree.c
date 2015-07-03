@@ -46,8 +46,9 @@ void traverseAndInsert(struct Node **node, struct Node **root){
 		traverseAndInsert(node, &((*root)->right));
 	}
 }
-void deleteWithChildren(struct Node **nodeToBeDeleted){
-	*nodeToBeDeleted=NULL;	
+void deleteWithChildren(struct Node **nodeToBeDeleted){	
+	free(*nodeToBeDeleted);
+	*nodeToBeDeleted=NULL;
 }
 
 int deleteNode(int number, struct Node **root){
