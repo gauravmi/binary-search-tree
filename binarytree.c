@@ -5,12 +5,14 @@
 int main(){
 	struct Node *root;
 	root = initializeTree(8);
-	insertNode(7, &root);	
-	insertNode(11, &root);
-	insertNode(6, &root);
-	insertNode(5, &root);
-	insertNode(10, &root);	
-	deleteNode(6, &root);
+	insert(7, &root);
+	insert(11, &root);
+	insert(6, &root);
+	insert(5, &root);
+	insert(10, &root);
+	
+	delete(6, &root);
+	
 	search(8, root);
 	search(7, root);
 	search(11, root);

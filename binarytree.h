@@ -7,16 +7,18 @@ struct Node{
 	struct Node *right;
 };
 
-
 struct Node* initializeTree(int number);
 void traverseAndInsert(struct Node *node, struct Node **root);
 void displayTree(struct Node *root);
-int insertNode(int number, struct Node **tree);
-int deleteNode(int number, struct Node **root);
+int insert(int number, struct Node **tree);
+int delete(int number, struct Node **root);
 void deleteWithChildren(struct Node **nodeToBeDeleted);
 void search(int number, struct Node *root);
 
+
+// tree
 struct Node *root;
+
 
 void displayTree(struct Node *root){
 	int i;
@@ -60,15 +62,15 @@ void traverseAndInsert(struct Node *node, struct Node **root){
 
 
 
-int deleteNode(int number, struct Node **root){
+int delete(int number, struct Node **root){
 	if(number == (*root)->data){
 		deleteWithChildren(root);
 		return SUCCESS;
 	}
 	if(number <= (*root)->data){
-		deleteNode(number, &((*root)->left));
+		delete(number, &((*root)->left));
 	}else{
-		deleteNode(number, &((*root)->right));
+		delete(number, &((*root)->right));
 	}
 	return FAILURE;
 }
@@ -78,7 +80,7 @@ void deleteWithChildren(struct Node **nodeToBeDeleted){
 	*nodeToBeDeleted=NULL;
 }
 
-int insertNode(int number, struct Node **root){
+int insert(int number, struct Node **root){
 	struct Node *newNode = malloc(sizeof(struct Node));
 	newNode->data = number;
 	newNode->left = NULL;
