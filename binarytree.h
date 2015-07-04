@@ -8,54 +8,53 @@ struct Node{
 };
 
 
-int initializeTree(int number, struct Node **root);
-void traverseAndInsert(struct Node **node, struct Node **root);
-void displayTree(struct Node **root);
+struct Node* initializeTree(int number);
+void traverseAndInsert(struct Node *node, struct Node **root);
+void displayTree(struct Node *root);
 int insertNode(int number, struct Node **tree);
 int deleteNode(int number, struct Node **root);
 void deleteWithChildren(struct Node **nodeToBeDeleted);
-void search(int number, struct Node **root);
+void search(int number, struct Node *root);
 
+struct Node *root;
 
-void displayTree(struct Node **root){
+void displayTree(struct Node *root){
 	int i;
-	if((*root)==NULL){
+	if(root==NULL){
 		return;
-	}
-	displayTree(&(*root)->left);
-	printf("%d\n", (*root)->data);
-	displayTree(&(*root)->right);
+	}	
+	displayTree(root->left);
+	printf("%d\n", root->data);
+	displayTree(root->right);
 }
 
-void search(int number, struct Node **root){
-	if((*root)==NULL){
+void search(int number, struct Node *root){
+	if(root==NULL){
 		printf("not found : %d\n", number);
 		return;
 	}
-	if(number == (*root)->data){
+	if(number == root->data){
 		printf("found : %d\n", number);
 		return;
-	}else if(number <= (*root)->data){
-		search(number, &((*root)->left));
+	}else if(number <= root->data){
+		search(number, root->left);
 	}else{
-		search(number, &((*root)->right));
+		search(number, root->right);
 	}	
 }
 
-void traverseAndInsert(struct Node **node, struct Node **root){
-	if(*root==NULL){
-		*root = malloc(sizeof(struct Node));
-		(*root)->left = malloc(sizeof(struct Node));
-		(*root)->right = malloc(sizeof(struct Node));
-		(*root)->data = (*node)->data;
+void traverseAndInsert(struct Node *node, struct Node **root){
+	if((*root)==NULL){
+		(*root) = malloc(sizeof(struct Node));
+		(*root)->data = node->data;
 		(*root)->right = NULL;
 		(*root)->left = NULL;
 		return;
-	}
-	if((*node)->data <= (*root)->data){
-		traverseAndInsert(node, &((*root)->left));
+	}	
+	if(node->data <= (*root)->data){
+		traverseAndInsert(node, &(*root)->left);
 	}else{
-		traverseAndInsert(node, &((*root)->right));
+		traverseAndInsert(node, &(*root)->right);
 	}
 }
 
@@ -84,13 +83,14 @@ int insertNode(int number, struct Node **root){
 	newNode->data = number;
 	newNode->left = NULL;
 	newNode->right = NULL;
-	traverseAndInsert(&newNode, root);
+	traverseAndInsert(newNode, &(*root));
 	return SUCCESS;
 }
 
-int initializeTree(int number, struct Node **root){	
-	(*root)->data = number;
-	(*root)->left = NULL;
-	(*root)->right = NULL;
-	return SUCCESS;
+struct Node* initializeTree(int number){	
+	root = malloc(sizeof(struct Node));
+	root->data = number;
+	root->left = NULL;
+	root->right = NULL;
+	return root;
 }
